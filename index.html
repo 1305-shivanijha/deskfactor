@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.7.3/d3.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/carbon-components@latest/css/carbon-components.css">
+
+
+
+<style>
+
+.progress{
+    width: 100px;
+    height: 100px;
+    line-height: 150px;
+    background: none;
+    margin: 0 auto;
+    box-shadow: none;
+    position: relative;
+  
+}
+.progress:after{
+    content: "";
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 12px solid #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.progress > span{
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+}
+.progress .progress-left{
+    left: 0;
+}
+.progress .progress-bar{
+    width: 100%;
+    height: 100%;
+    background: none;
+    border-width: 12px;
+    border-style: solid ;
+    position: absolute;
+    top: 0;
+}
+.progress .progress-left .progress-bar{
+    left: 100%;
+    border-top-right-radius: 80px;
+    border-bottom-right-radius: 80px;
+    border-left: 0;
+    -webkit-transform-origin: center left;
+    transform-origin: center left;
+}
+.progress .progress-right{
+    right: 0;
+}
+.progress .progress-right .progress-bar{
+    left: -100%;
+    border-top-left-radius: 80px;
+    border-bottom-left-radius: 80px;
+    border-right: 0;
+    -webkit-transform-origin: center right;
+    transform-origin: center right;
+    animation: loading-1 1.8s linear forwards;
+}
+.progress .progress-value{
+    width: 90%;
+    height: 90%;
+    border-radius: 50%;
+    background: white;
+    font-size: 14px;
+    color: #4A4A4A;
+    line-height: 135px;
+    text-align: center;
+    position: absolute;
+    top: 5%;
+    left: 5%;
+}
+.progress.green .progress-bar{
+    border-color:#00ABFF ;
+}
+.progress.green .progress-left .progress-bar{
+    animation: loading-2 1.5s linear forwards 1.8s;
+}
+
+@keyframes loading-1{
+    0%{
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100%{
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+}
+@keyframes loading-2{
+    0%{
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100%{
+        -webkit-transform: rotate(144deg);
+        transform: rotate(144deg);
+    }
+}
+
+
+
+@media only screen and (max-width: 990px){
+    .progress{ margin-bottom: 20px; }
+}
+body {
+padding: 1rem 3%;
+}
+
+
+
+.overlay {
+fill: #3d70b2;
+opacity: .1;
+display: none;
+pointer-events: none;
+}
+
+.line {
+stroke-width: 82;
+stroke: #FF00FF;
+fill: none;
+pointer-events: none;
+}
+
+.axis path {
+stroke: #5A6872;
+}
+
+.tick line {
+stroke: #5A6872;
+}
+
+.tick text {
+fill: #5A6872;
+}
+
+.graph-container {
+position: relative;
+}
+
+.tooltip {
+font-weight: 700;
+padding-left: 1rem 2rem;
+background-color: #fff;
+position: absolute;
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .1);
+border: 1px solid #DFE3E6;
+padding: .25rem .5rem;
+pointer-events: none;
+display: none;
+
+&:after {
+content: '';
+top: 100%;
+left: 50%;
+transform: translateX(-50%);
+position: absolute;
+width: 0;
+height: 0;
+border-left: 5px solid transparent;
+border-right: 5px solid transparent;
+border-top: 5px solid #fff;
+}
+}
+
+.y path {
+display: none;
+}
+
+.label {
+font-size: 10px;
+font-weight: 700;
+fill: #5A6872;
+text-anchor: middle;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+
+
+.topnav {
+  overflow: hidden;
+  background-color: #00A5FF;
+  height:100px;
+}
+
+.topnav h6
+
+
+h6{
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.row1:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.column1 {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  height: 480px; 
+}
+.column2 {
+  float: left;
+  width: 80%;
+  padding: 10px;
+  height: 460px; 
+}
+
+
+.row2:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.column3 {
+border:1px solid #E9E9E9;
+border-radius: 10px;
+  float: left;
+  width: 60%;
+  padding: 10px;
+  height: 250px;
+  margin-top:40px;
+  margin-right:10px;
+}
+.column4 {
+border:1px solid #E9E9E9;
+border-radius: 10px;
+  float: right;
+  width: 35%;
+  padding: 10px;
+  height: 250px;
+  margin-top:25px;
+}
+
+
+
+.row3:after {
+  content: "";
+  display: table;
+  clear: both;
+  margin-top:140px;
+}
+
+
+.column5 {
+
+  float: right;
+  width: 10%;
+  padding: 10px;
+  height: 40px;
+  margin-top:40px;
+  border: 1px solid #DEDEDE;
+border-radius: 6px;
+opacity: 1;
+}
+.column6 {
+border: 1px solid #DEDEDE;
+border-radius: 6px;
+opacity: 1;
+  float: right;
+  width: 10%;
+  padding: 10px;
+  height: 40px;
+  margin-top:40px;
+   margin-right:20px;
+}
+.column7 {
+border: 1px solid #DEDEDE;
+border-radius: 6px;
+opacity: 1;
+  float: right;
+  width: 10%;
+  padding: 10px;
+  height: 40px;
+  margin-top:40px;
+   margin-right:20px;
+
+
+.row4:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+.column8 {
+border:2px solid #00AAFF;
+  float: left;
+  width: 30%;
+  padding: 10px;
+  height: 60px;
+  margin-right:10px;
+  border-radius:20px;
+  box-shadow:#00000017
+text-align: left;
+font: normal normal normal 20px/22px Kollektif;
+letter-spacing: 0px;
+color: #333333;
+opacity: 1;
+border:2px solid #00AAFF;
+  float: left;
+  width: 30%;
+  padding: 10px;
+  height: 60px;
+  margin-right:10px;
+   border-radius:20px;
+}
+.column10 {
+border:2px solid #00AAFF;
+  float: left;
+  width: 30%;
+  padding: 10px;
+  height: 60px;
+ 
+   border-radius:20px;
+}
+
+p.solid {border-style: solid;}
+
+</style>
+</head>
+<body>
+
+<div class="topnav" style="color:white;">
+  <h4 style="float:left; padding-left:20px;">Blue Secures </h4>
+  <h3 style="float:left; margin-left:560px;"> Company Name <i class="fa fa-angle-down" style="font-size:48px;color:white"></i>
+ </h3>
+  <h6 style="float:right; padding-right:20px;"> blue secures </h6>
+ 
+</div>
+
+<div class="row1">
+  <div class="column1" style="background:white;">
+ 
+  <h6 style="padding-bottom:40px;"> <img src="img_snowtops.jpg" class="w3-round"> View, Download, Print Reports & Delete Data</h6>
+ 
+   <h6 style="padding-bottom:40px;"> <img src="img_snowtops.jpg" class="w3-round" > Employees & Contractors</h6>
+   
+    <h6 style="padding-bottom:40px;"> <img src="img_snowtops.jpg" class="w3-round" > Customers, suppliers, partners, consultants etc</h6>
+   
+     <h6 style="padding-bottom:40px;"> <img src="img_snowtops.jpg" class="w3-round" > Groups</h6>
+     
+      <h6 style="padding-bottom:40px;"> <img src="img_snowtops.jpg" class="w3-round" > Inactive users</h6>
+     
+      
+ 
+  </div>
+ 
+  <div class="column2"  >
+   <div class="row4">
+  <div class="column8">
+  <h6>Users & Groups</h6>
+  </div>
+  <div class="column9" >
+  <h6> Subscription Billing & Invoices</h6>
+  </div>
+ 
+  <div class="column10" >
+  <h6> Download & Delete data</h6>
+  </div>
+</div>
+   
+
+
+
+ <div class="row3">
+  <div class="column5">
+  <h6>Filter</h6>
+  </div>
+  <div class="column6" >
+  <h6> Download</h6>
+  </div>
+ 
+  <div class="column7" >
+  <h6> print</h6>
+  </div>
+</div>
+   
+ 
+ <div class="row2">
+ 
+ 
+ 
+ 
+  <div class="column3">
+  
+
+  <div style="display:inline;">
+  
+  <h6 style="padding:25px; color:#00A5FF">All users (customers, suppliers, partners..)</h6>
+
+  
+
+            <span class="progress green" style="float:left;">
+                <span class="progress-left">
+                    <span class="progress-bar"></span>
+                </span>
+                <span class="progress-right">
+                    <span class="progress-bar"></span>
+                </span>
+                <div class="progress-value">80 user</div>
+            </div>
+        </span>
+  <h6 style="float:left;margin-left:20px;">customer </h6>
+  <h6 style="float:left; background-color:#00A5FF; margin-left:20px;"> 50</h6>
+  <h6 style="float:left; background-color:#00A5FF; margin-left:20px;"> 50</h6>
+  <h6 style="float:left; margin-left:20px;">partner</h6>
+   <h6 style="float:left; background-color:#00A5FF; margin-left:20px;"> 50</h6>
+  <h6 style="float:left; background-color:#00A5FF; margin-left:20px;"> 50</h6>
+  <h6 style="float:left; margin-left:20px;">other</h6>
+   <h6 style="float:left; background-color:#00A5FF; margin-left:20px;"> 50</h6>
+  <h6 style="float:left; background-color:#00A5FF; margin-left:20px;"> 50</h6>
+  </div>
+  </br>
+
+  <div class="column4">
+ <div style="display:inline;">
+  <h6 style="padding:25px; color:#00A5FF">Status of users</h6>
+ 
+  
+
+            <span class="progress green" style="float:left;">
+                <span class="progress-left">
+                    <span class="progress-bar"></span>
+                </span>
+                <span class="progress-right">
+                    <span class="progress-bar"></span>
+                </span>
+                <div class="progress-value">80 user</div>
+            </div>
+        </span>
+  <h6 style="float:left;margin-left:20px;">active </h6>
+  <h6 style="float:left; background-color:#00A5FF; margin-left:20px;"> 50</h6>
+  <h6 style="float:left; background-color:#00A5FF; margin-left:20px;"> 50</h6>
+ 
+  </div>
+
+  </div>
+  </div>
+</div>
+ 
+ <div style="margin-top:0px;">
+
+<div class="graph-container" style="border:1px solid #E1E1E1; border-radius:10px; width:80%; float:right;">
+<svg></svg>
+<div class="tooltip"></div>
+</div>
+ </div>
+ </div>
+ 
+ </div>
+   
+</div>
+</div>
+
+<script>
+function createData(num) {
+let data = [];
+for (var i = 0; i < num; i++) {
+const randomNum = Math.floor(Math.random() * 1000 + 1);
+let d = new Date();
+d.setDate(d.getDate() - (i * 30));
+data.push({
+date: d,
+amount: randomNum
+});
+}
+
+return data;
+}
+
+let data = createData(12).sort(function(a, b) { return a.date - b.date; });
+
+const margin = { top: 30, right: 20, bottom: 60, left: 65 };
+const width = 900 - (margin.left + margin.right);
+const height = 300 - (margin.top + margin.bottom);
+const labelOffset = 50;
+const axisOffset = 16;
+
+const timeFormat = d3.timeFormat('%b');
+
+const x = d3.scaleBand()
+.rangeRound([0, width])
+.domain(data.map((d) => d.date))
+.padding(0.5);
+
+const y = d3.scaleLinear()
+.range([height, 0])
+.domain([0, d3.max(data, (d) => d.amount)]);
+
+const xAxis = d3.axisBottom()
+.scale(x)
+.tickSize(0)
+.tickFormat(timeFormat)
+
+const yAxis = d3.axisLeft()
+.ticks(4)
+.tickSize(-width)
+.scale(y.nice());
+
+const svg = d3.select('svg')
+.attr('class', 'graph')
+.attr('width', width + (margin.left + margin.right))
+.attr('height', height + (margin.top + margin.bottom))
+.append('g')
+.attr('class', 'group-container')
+.attr('transform', `translate(${margin.left}, ${margin.top})`)
+.attr('font-family', 'ibm-plex-sans');
+
+// // Add Y axis
+svg.append('g')
+.attr('class', 'axis y')
+.attr('stroke-dasharray', '4')
+.call(yAxis)
+.selectAll('text')
+.attr("x", -axisOffset)
+.attr('font-family', 'ibm-plex-sans');
+
+// // Add Y axis label
+const yLabel = svg.select('.y')
+.append('text')
+
+.attr('class', 'label')
+.attr('transform', `translate(${-labelOffset}, ${height / 2}) rotate(-90)`)
+.attr('font-family', 'ibm-plex-sans');
+
+svg.append('g')
+.attr('class', 'axis x')
+.attr('transform', `translate(0, ${height})`)
+.call(xAxis)
+.selectAll('text')
+.attr("y", axisOffset)
+.attr('font-family', 'ibm-plex-sans')
+
+// // Add X axis label
+const xLabel = svg.select('.x')
+.append('text')
+
+.attr('class', 'label')
+.attr('transform', `translate(${width / 2}, ${labelOffset})`)
+.attr('font-family', 'ibm-plex-sans');
+
+svg.append('g')
+.attr('class', 'bar-container')
+.selectAll('rect')
+.data(data)
+.enter().append('rect')
+.attr('class', 'bar')
+.attr('x', (d) => x(d.date))
+.attr('y', (d) => height)
+.attr('height', 0)
+.attr('width', x.bandwidth())
+.attr('fill', '#00A5FF')
+.transition()
+.duration(500)
+.delay((d, i) => i * 50)
+.attr('height', (d) => height - y(d.amount))
+.attr('y', (d) => y(d.amount));
+
+const tooltip = d3.select('.tooltip');
+
+const bars = svg.selectAll('.bar')
+.on('mouseover', function(d) {
+let color = d3.color('#00A5FF')
+d3.select(this)
+.attr('fill', color)
+tooltip
+.style('display', 'inherit')
+.text(`$${d.amount}`)
+.style('top', `${y(d.amount) - axisOffset}px`);
+
+let bandwidth = x.bandwidth();
+let tooltipWidth = tooltip.nodes()[0].getBoundingClientRect().width;
+let offset = (tooltipWidth - bandwidth) / 2;
+
+tooltip
+.style('left', `${x(d.date) + margin.left - offset}px`)
+})
+.on('mouseout', function(d) {
+d3.select(this)
+.transition()
+.duration(250)
+.attr('fill', '#00A5FF')
+tooltip
+.style('display', 'none')
+})
+
+</script>
+
+</body>
+</html>
