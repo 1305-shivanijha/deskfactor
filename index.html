@@ -11,6 +11,70 @@
 
 <style>
 
+
+@media only screen and (max-width: 600px) {
+
+
+
+.graph-container {
+margin-top:250px;
+position: relative;
+}
+
+
+  .column1 {
+  display:none;
+  }
+  
+   .column2 {
+   width:100%;
+    padding-right:200px;
+ 
+ }
+  
+   .column3 {
+  }
+  
+  
+   .column4 {
+  }
+  
+   .column5 {
+    margin-right:180px;
+
+  }
+  
+   .column6 {
+    
+  }
+  
+   .column7 {
+  }
+  
+   .column8 {
+    
+  }
+  
+   .column9 {
+  }
+  
+   .column10 {
+  }
+  
+  .topnav{
+  display:none;
+ 
+  }
+  
+  .topnav1 {
+  overflow: hidden;
+  background-color: #00A5FF;
+  height:100px;
+    padding-top:10px;
+
+}
+}
+
 .progress{
     width: 100px;
     height: 100px;
@@ -26,7 +90,6 @@
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    border: 12px solid #fff;
     position: absolute;
     top: 0;
     left: 0;
@@ -114,13 +177,13 @@
 
 
 
-@media only screen and (max-width: 990px){
+@media only screen and (max-width: 490px){
     .progress{ margin-bottom: 20px; }
 }
 body {
 padding: 1rem 3%;
-}
 
+}
 
 
 .overlay {
@@ -279,11 +342,11 @@ border-radius: 10px;
   display: table;
   clear: both;
   margin-top:140px;
+  
 }
 
 
 .column5 {
-
   float: right;
   width: 10%;
   padding: 10px;
@@ -355,13 +418,20 @@ border:2px solid #00AAFF;
   height: 60px;
  
    border-radius:10px;
+   
    }
+   
 
 p.solid {border-style: solid;}
 
 </style>
 </head>
 <body>
+<div class="topnav1" style="color:white;">
+  <h4 style="float:left; padding-left:20px;"> <img src="Group 32628.svg" class="w33-round" ></h4>
+</div>
+
+
 
 <div class="topnav" style="color:white;">
     
@@ -541,7 +611,7 @@ let data = createData(12).sort(function(a, b) { return a.date - b.date; });
 
 const margin = { top: 30, right: 20, bottom: 60, left: 65 };
 const width = 900 - (margin.left + margin.right);
-const height = 300 - (margin.top + margin.bottom);
+const height =300 - (margin.top + margin.bottom);
 const labelOffset = 50;
 const axisOffset = 16;
 
